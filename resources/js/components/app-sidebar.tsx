@@ -1,5 +1,17 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, LifeBuoy, LayoutGrid } from 'lucide-react';
+import {
+    BarChart3,
+    Bot,
+    BookOpen,
+    ClipboardList,
+    FileText,
+    FilePlus2,
+    LifeBuoy,
+    LayoutGrid,
+    PlugZap,
+    UserSquare2,
+    Users,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -21,6 +33,46 @@ const mainNavItems: NavItem[] = [
         title: 'Operations Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Order List',
+        href: '/orders',
+        icon: ClipboardList,
+    },
+    {
+        title: 'Place Order',
+        href: '/orders/place',
+        icon: FilePlus2,
+    },
+    {
+        title: 'Quotes',
+        href: '/quotes',
+        icon: FileText,
+    },
+    {
+        title: 'Clients',
+        href: '/clients',
+        icon: Users,
+    },
+    {
+        title: 'Employees',
+        href: '/employees',
+        icon: UserSquare2,
+    },
+    {
+        title: 'Chatbot Configuration',
+        href: '/chatbot-configuration',
+        icon: Bot,
+    },
+    {
+        title: 'Reports',
+        href: '/reports',
+        icon: BarChart3,
+    },
+    {
+        title: 'Integrations',
+        href: '/integrations',
+        icon: PlugZap,
     },
 ];
 

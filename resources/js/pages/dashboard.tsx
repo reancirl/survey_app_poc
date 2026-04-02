@@ -1,5 +1,16 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Head, Link } from '@inertiajs/react';
+import {
+    ArrowRight,
+    BarChart3,
+    Bot,
+    ClipboardList,
+    FilePlus2,
+    FileText,
+    Gauge,
+    PlugZap,
+    UserSquare2,
+    Users,
+} from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem } from '@/types';
@@ -11,169 +22,301 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const kpiWidgets = [
+    {
+        label: 'Open Orders',
+        value: '9',
+        detail: 'Across Order List views',
+        tone: 'text-[#186627] bg-[#edf5ef] border-[#dbe7de]',
+    },
+    {
+        label: 'Quotes Pipeline',
+        value: '7',
+        detail: 'Open + Hold Estimate',
+        tone: 'text-[#186627] bg-[#edf5ef] border-[#dbe7de]',
+    },
+    {
+        label: 'Active Clients',
+        value: '6',
+        detail: 'Visible in current filters',
+        tone: 'text-[#186627] bg-[#edf5ef] border-[#dbe7de]',
+    },
+    {
+        label: 'Report Entries',
+        value: '32',
+        detail: 'Operational report menu',
+        tone: 'text-[#8d4d1c] bg-[#fff7f0] border-[#eadfce]',
+    },
+    {
+        label: 'Connected Apps',
+        value: '4',
+        detail: 'QuickBooks, Twilio, Stripe, Salesforce',
+        tone: 'text-[#8d4d1c] bg-[#fff7f0] border-[#eadfce]',
+    },
+    {
+        label: 'Employees Online',
+        value: '4',
+        detail: 'Out of 6 active team members',
+        tone: 'text-[#186627] bg-[#edf5ef] border-[#dbe7de]',
+    },
+    {
+        label: 'Bot Readiness',
+        value: '82%',
+        detail: 'Knowledge and channel config',
+        tone: 'text-[#8d4d1c] bg-[#fff7f0] border-[#eadfce]',
+    },
+];
+
+const moduleWidgets = [
+    {
+        title: 'Order List',
+        description:
+            'Track new, open, due today, completed, and cancelled survey orders.',
+        href: '/orders',
+        icon: ClipboardList,
+    },
+    {
+        title: 'Place Order',
+        description:
+            'Capture property address, map location, intake details, and create quote handoff.',
+        href: '/orders/place',
+        icon: FilePlus2,
+    },
+    {
+        title: 'Quotes',
+        description:
+            'Monitor quote statuses, follow-up dates, and amount totals.',
+        href: '/quotes',
+        icon: FileText,
+    },
+    {
+        title: 'Clients',
+        description:
+            'Manage client records with basic and advanced filtering.',
+        href: '/clients',
+        icon: Users,
+    },
+    {
+        title: 'Reports',
+        description:
+            'Access operations reports including due/overdue orders and delivery views.',
+        href: '/reports',
+        icon: BarChart3,
+    },
+    {
+        title: 'Employees',
+        description:
+            'Track employee current tasks, online status, and contact actions.',
+        href: '/employees',
+        icon: UserSquare2,
+    },
+    {
+        title: 'Chatbot Configuration',
+        description:
+            'Configure chatbot behavior, channels, escalation, and knowledge sources.',
+        href: '/chatbot-configuration',
+        icon: Bot,
+    },
+    {
+        title: 'Integrations',
+        description:
+            'Review connected services and prepare additional system integrations.',
+        href: '/integrations',
+        icon: PlugZap,
+    },
+];
+
+const queueWidgets = [
+    {
+        module: 'Orders',
+        focus: 'Due Today / Overdue',
+        count: 4,
+        nextAction: 'Review queue and assign rush handling',
+    },
+    {
+        module: 'Quotes',
+        focus: 'Follow-ups overdue',
+        count: 3,
+        nextAction: 'Run quote callbacks before EOD',
+    },
+    {
+        module: 'Clients',
+        focus: 'Disabled/Deleted review',
+        count: 2,
+        nextAction: 'Validate archive candidates',
+    },
+    {
+        module: 'Employees',
+        focus: 'Offline coverage',
+        count: 2,
+        nextAction: 'Send SMS/email nudges for pending tasks',
+    },
+    {
+        module: 'Chatbot',
+        focus: 'Training sources',
+        count: 6,
+        nextAction: 'Review source freshness and escalation triggers',
+    },
+    {
+        module: 'Integrations',
+        focus: 'Connected platforms',
+        count: 4,
+        nextAction: 'Plan webhook + sync monitoring',
+    },
+];
+
+const integrationStatus = [
+    { name: 'QuickBooks', state: 'Connected' },
+    { name: 'Twilio', state: 'Connected' },
+    { name: 'Stripe', state: 'Connected' },
+    { name: 'Salesforce', state: 'Connected' },
+];
+
 export default function Dashboard() {
-    const metrics = [
-        {
-            label: 'Active Survey Orders',
-            value: '18',
-            detail: '+4 this week',
-        },
-        {
-            label: 'Pending Client Quotes',
-            value: '7',
-            detail: '2 awaiting review',
-        },
-        {
-            label: 'Reports Due This Week',
-            value: '11',
-            detail: '3 high priority',
-        },
-    ];
-
-    const milestones = [
-        { phase: 'Milestone 1', title: 'System Foundation', progress: 100 },
-        { phase: 'Milestone 2', title: 'Order Management', progress: 78 },
-        { phase: 'Milestone 3', title: 'Quotes & Client Management', progress: 46 },
-        { phase: 'Milestone 4', title: 'Reporting Module', progress: 12 },
-        { phase: 'Milestone 5', title: 'UAT & Stabilization', progress: 0 },
-    ];
-
-    const priorities = [
-        'Finalize QA/UAT environment checklist',
-        'Review pending client quote approvals',
-        'Prepare order progress summary for standup',
-    ];
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="relative flex h-full flex-1 flex-col gap-6 overflow-x-auto p-4 md:p-6">
-                <div className="pointer-events-none absolute top-4 right-4 size-52 rounded-full bg-[#bb6420]/10 blur-3xl" />
-                <div className="pointer-events-none absolute bottom-8 left-8 size-64 rounded-full bg-[#186627]/10 blur-3xl" />
 
-                <section className="relative overflow-hidden rounded-3xl border border-[#dfeadf] bg-white p-6 shadow-[0_24px_56px_-42px_rgba(24,102,39,0.65)] md:p-8">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-[#186627]/6" />
-                    <div className="relative">
-                        <span className="inline-flex rounded-full border border-[#186627]/20 bg-[#186627]/10 px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[#186627] uppercase">
-                            First Choice Surveying Inc.
-                        </span>
-                        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#1f2e22] md:text-4xl">
-                            Operations Dashboard
-                        </h1>
-                        <p className="mt-3 max-w-3xl text-sm leading-7 text-[#4f6b58] md:text-base">
-                            Track survey work orders, client quote activity,
-                            and milestone delivery in one view built for daily
-                            execution.
-                        </p>
-                    </div>
+            <div className="flex h-full flex-1 flex-col gap-5 p-4 md:p-6">
+                <section className="rounded-2xl border border-[#dbe7de] bg-white p-5 shadow-[0_18px_32px_-26px_rgba(24,102,39,0.78)] md:p-6">
+                    <p className="text-xs font-semibold tracking-[0.12em] text-[#186627] uppercase">
+                        First Choice Surveying Inc.
+                    </p>
+                    <h1 className="mt-1 text-3xl font-semibold tracking-tight text-[#1f2e22]">
+                        Operations Dashboard
+                    </h1>
+                    <p className="mt-2 max-w-3xl text-sm text-[#4f6b58] md:text-base">
+                        Unified operational view for the currently implemented
+                        modules: orders, quotes, clients, reporting, and
+                        integrations.
+                    </p>
                 </section>
 
-                <section className="grid gap-4 md:grid-cols-3">
-                    {metrics.map((metric) => (
+                <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-7">
+                    {kpiWidgets.map((item) => (
                         <article
-                            key={metric.label}
-                            className="rounded-2xl border border-[#dbe7de] bg-white p-5 shadow-[0_16px_30px_-24px_rgba(24,102,39,0.7)]"
+                            key={item.label}
+                            className={`rounded-xl border p-4 shadow-[0_12px_24px_-24px_rgba(24,102,39,0.8)] ${item.tone}`}
                         >
-                            <p className="text-xs font-semibold tracking-[0.12em] text-[#bb6420] uppercase">
-                                {metric.label}
+                            <p className="text-xs font-semibold tracking-[0.08em] uppercase">
+                                {item.label}
                             </p>
-                            <p className="mt-3 text-4xl font-semibold text-[#1e3124]">
-                                {metric.value}
+                            <p className="mt-2 text-3xl font-semibold text-[#1f2e22]">
+                                {item.value}
                             </p>
-                            <p className="mt-2 text-sm text-[#5a6f61]">
-                                {metric.detail}
+                            <p className="mt-1 text-xs text-[#577260]">
+                                {item.detail}
                             </p>
                         </article>
                     ))}
                 </section>
 
-                <section className="grid gap-4 xl:grid-cols-3">
-                    <article
-                        id="roadmap"
-                        className="xl:col-span-2 rounded-2xl border border-[#dbe7de] bg-white p-6 shadow-[0_16px_30px_-24px_rgba(24,102,39,0.7)]"
-                    >
-                        <h2 className="text-lg font-semibold text-[#1f2e22]">
-                            MVP Milestone Progress
-                        </h2>
-                        <p className="mt-1 text-sm text-[#56705e]">
-                            Delivery tracking aligned with the current 5-phase
-                            implementation plan.
-                        </p>
+                <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
+                    <article className="rounded-2xl border border-[#dbe7de] bg-white p-5 shadow-[0_16px_30px_-24px_rgba(24,102,39,0.7)]">
+                        <div className="flex items-center justify-between gap-3">
+                            <h2 className="text-lg font-semibold text-[#1f2e22]">
+                                Module Widgets
+                            </h2>
+                            <span className="rounded-full bg-[#edf5ef] px-2 py-1 text-xs font-semibold text-[#355744]">
+                                {moduleWidgets.length} modules
+                            </span>
+                        </div>
 
-                        <div className="mt-6 space-y-4">
-                            {milestones.map((milestone) => (
-                                <div key={milestone.phase} className="space-y-2">
-                                    <div className="flex items-center justify-between gap-3">
-                                        <p className="text-sm font-medium text-[#2a4636]">
-                                            {milestone.phase}: {milestone.title}
+                        <div className="mt-4 grid gap-3 md:grid-cols-2">
+                            {moduleWidgets.map((widget) => {
+                                const Icon = widget.icon;
+
+                                return (
+                                    <Link
+                                        key={widget.title}
+                                        href={widget.href}
+                                        className="group rounded-xl border border-[#dce8df] bg-[#fcfffd] p-4 transition hover:border-[#c7d7cd] hover:bg-[#f7fbf8]"
+                                    >
+                                        <div className="flex items-start gap-3">
+                                            <div className="rounded-lg border border-[#dce8df] bg-white p-2">
+                                                <Icon className="size-4 text-[#186627]" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="font-semibold text-[#1f2e22]">
+                                                    {widget.title}
+                                                </p>
+                                                <p className="mt-1 text-sm text-[#577260]">
+                                                    {widget.description}
+                                                </p>
+                                                <p className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[#186627]">
+                                                    Open module
+                                                    <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </article>
+
+                    <article className="rounded-2xl border border-[#eadfce] bg-[#fff8f1] p-5 shadow-[0_16px_30px_-24px_rgba(187,100,32,0.65)]">
+                        <div className="flex items-center gap-2 text-[#4f2f17]">
+                            <Gauge className="size-4" />
+                            <h2 className="text-lg font-semibold">
+                                Operational Health
+                            </h2>
+                        </div>
+
+                        <div className="mt-4 space-y-3">
+                            {queueWidgets.map((item) => (
+                                <div
+                                    key={item.module}
+                                    className="rounded-lg border border-[#efdccc] bg-white/85 p-3"
+                                >
+                                    <div className="flex items-center justify-between gap-2">
+                                        <p className="text-sm font-semibold text-[#51311a]">
+                                            {item.module}
                                         </p>
-                                        <span className="text-xs font-semibold text-[#bb6420]">
-                                            {milestone.progress}%
+                                        <span className="rounded-full bg-[#fff1e3] px-2 py-0.5 text-xs font-semibold text-[#8d4d1c]">
+                                            {item.count}
                                         </span>
                                     </div>
-                                    <div className="h-2 overflow-hidden rounded-full bg-[#edf5ef]">
-                                        <div
-                                            className="h-full rounded-full bg-[#186627]"
-                                            style={{
-                                                width: `${milestone.progress}%`,
-                                            }}
-                                        />
-                                    </div>
+                                    <p className="mt-1 text-sm text-[#775138]">
+                                        {item.focus}
+                                    </p>
+                                    <p className="mt-1 text-xs text-[#8a6144]">
+                                        {item.nextAction}
+                                    </p>
                                 </div>
                             ))}
                         </div>
                     </article>
-
-                    <article className="rounded-2xl border border-[#eadfce] bg-[#fff8f1] p-6 shadow-[0_16px_30px_-24px_rgba(187,100,32,0.65)]">
-                        <h2 className="text-lg font-semibold text-[#4f2f17]">
-                            Today&apos;s Priorities
-                        </h2>
-                        <ul className="mt-4 space-y-3 text-sm text-[#6f4b2d]">
-                            {priorities.map((item) => (
-                                <li key={item} className="flex gap-2">
-                                    <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#bb6420]" />
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </article>
                 </section>
 
-                <section className="rounded-2xl border border-[#dbe7de] bg-white p-6 shadow-[0_16px_30px_-24px_rgba(24,102,39,0.7)]">
-                    <div className="grid gap-4 md:grid-cols-3">
-                        <div className="rounded-xl border border-[#dce8df] bg-[#f8fcf9] p-4">
-                            <p className="text-xs font-semibold tracking-[0.12em] text-[#186627] uppercase">
-                                Next Review
-                            </p>
-                            <p className="mt-2 text-lg font-semibold text-[#1f2e22]">
-                                March 15, 2026
-                            </p>
-                            <p className="mt-1 text-sm text-[#577260]">
-                                Internal sprint checkpoint
-                            </p>
-                        </div>
-                        <div className="rounded-xl border border-[#eadfce] bg-[#fff8f1] p-4">
-                            <p className="text-xs font-semibold tracking-[0.12em] text-[#bb6420] uppercase">
-                                Budget Status
-                            </p>
-                            <p className="mt-2 text-lg font-semibold text-[#4f2f17]">
-                                MVP: $7,200 USD
-                            </p>
-                            <p className="mt-1 text-sm text-[#775138]">
-                                10% kickoff + 5 milestone payouts
-                            </p>
-                        </div>
-                        <div className="rounded-xl border border-[#dce8df] bg-[#f8fcf9] p-4">
-                            <p className="text-xs font-semibold tracking-[0.12em] text-[#186627] uppercase">
-                                Current Focus
-                            </p>
-                            <p className="mt-2 text-lg font-semibold text-[#1f2e22]">
-                                Authentication + Core Modules
-                            </p>
-                            <p className="mt-1 text-sm text-[#577260]">
-                                Foundation for client/order workflows
-                            </p>
-                        </div>
+                <section className="rounded-2xl border border-[#dbe7de] bg-white p-5 shadow-[0_16px_30px_-24px_rgba(24,102,39,0.7)]">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <h2 className="text-lg font-semibold text-[#1f2e22]">
+                            Integrations Status
+                        </h2>
+                        <Link
+                            href="/integrations"
+                            className="inline-flex items-center gap-1 text-sm font-semibold text-[#186627] hover:text-[#145521]"
+                        >
+                            Manage integrations
+                            <ArrowRight className="size-4" />
+                        </Link>
+                    </div>
+
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        {integrationStatus.map((item) => (
+                            <div
+                                key={item.name}
+                                className="rounded-xl border border-[#dce8df] bg-[#f8fcf9] p-4"
+                            >
+                                <p className="font-semibold text-[#1f2e22]">
+                                    {item.name}
+                                </p>
+                                <span className="mt-2 inline-flex rounded-full bg-[#e8f4ea] px-2 py-1 text-xs font-semibold text-[#186627]">
+                                    {item.state}
+                                </span>
+                            </div>
+                        ))}
                     </div>
                 </section>
             </div>
